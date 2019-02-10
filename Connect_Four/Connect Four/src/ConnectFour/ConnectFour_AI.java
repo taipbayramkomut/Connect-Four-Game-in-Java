@@ -1,4 +1,5 @@
 package ConnectFour;
+import javax.swing.*;
 import java.util.Random;
 
 public class ConnectFour_AI extends ConnectFourGame {
@@ -12,14 +13,14 @@ public class ConnectFour_AI extends ConnectFourGame {
         super(size,type);
     }
 
-    public void playGame(){
-        playWithComputer();
+    public void playGame(JPanel tag,JButton items[]){
+        playWithComputer(tag,items);
     }
 
     /**
      * It performs commands to play against the computer.
      */
-    void playWithComputer(){
+    void playWithComputer(JPanel tag,JButton items[]){
         int count=0;
         Character input;
         char gamer;
@@ -35,37 +36,37 @@ public class ConnectFour_AI extends ConnectFourGame {
                 gamer='O';			/* COMPUTER	*/
                 moveOfComputer(column);
                 step= (char) ('A'+column[0]);
-                System.out.println("Computer: " + step);
+//                System.out.println("Computer: " + step);
             }
             else{
                 do{
                     status=0;
-                    System.out.print("Player= ");
-                    input=getInputs();
+                    input=getInputs("Player's move");
                     if(legalPosition(input)==0){
                         status=1;
-                        System.out.println("This column is full or invalid.");
+                        JOptionPane.showMessageDialog(null,"This column is full or invalid.","Warning!",JOptionPane.ERROR_MESSAGE);
                     }
                 }while(status==1);
                 gamer='X';			/* USER	*/
                 column[0]=input-'a';
             }
             row=assignToBoard(column,gamer);
+            assignToGUI(tag,items,row,column[0],gamer);
             returnValue=gameStatus(row,column,gamer);
             if(returnValue==1 || returnValue==2)	condition=1;
-            if(condition==0)	displayBoard();
+            if(condition==0);	//displayBoard();
             if(condition==1 && returnValue==1){
                 if(count%2==0)
-                    System.out.println("The player won the game.");
+                    JOptionPane.showMessageDialog(null,"The player won the game.");
                 else
-                    System.out.println("The computer won the game.");
+                    JOptionPane.showMessageDialog(null,"The computer won the game.");
             }
             else if(condition==1 && returnValue==2){
-                System.out.println("The game ended in a draw.\n");
+                JOptionPane.showMessageDialog(null,"The game ended in a draw.");
             }
             count++;
         }while(condition==0);
-        displayBoard();
+//        displayBoard();
     }
 
     /**

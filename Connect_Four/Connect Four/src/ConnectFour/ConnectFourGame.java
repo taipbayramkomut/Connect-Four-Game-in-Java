@@ -1,7 +1,9 @@
 package ConnectFour;
-import java.util.Scanner;
+import javax.swing.*;
+import java.awt.*;
 
-public abstract class ConnectFourGame implements UserInterface{
+
+public abstract class ConnectFourGame extends JFrame implements UserInterface{
 
     protected char[][] board;
     protected char game_type;
@@ -14,12 +16,21 @@ public abstract class ConnectFourGame implements UserInterface{
         board=new char[sizeOfBoard][sizeOfBoard];
         this.game_type=game_type;
         initBoard();
-        displayBoard();
+        //displayBoard();
+    }
+
+    public char[][] getterBoard(){
+        return board;
+    }
+
+    public char getterGameType(){
+        return game_type;
     }
 
     /**
      * This function displays the current board.
      */
+    /*
     public void displayBoard(){
         int i,j;
         char chr;
@@ -29,12 +40,12 @@ public abstract class ConnectFourGame implements UserInterface{
             System.out.print(chr + " ");
         }
         System.out.println();
-        /*******************/
+
         System.out.print("  ");
         for(i=0;i<board.length;++i)
             System.out.print("_ ");
         System.out.println();
-        /*******************/
+
         for(i=0;i<board.length;++i){
             System.out.print(" |");
             for(j=0;j<board.length;++j){
@@ -44,10 +55,10 @@ public abstract class ConnectFourGame implements UserInterface{
             System.out.print('|');
             System.out.println();
         }
-        /*******************/
+
         System.out.println();
     }
-
+    */
     /**
      * It assigns the initial values of the board.
      */
@@ -62,12 +73,22 @@ public abstract class ConnectFourGame implements UserInterface{
      * It asks the user to make a move.
      * @return
      */
-    protected Character getInputs(){
-        Scanner data=new Scanner(System.in);
-        Character input=data.next().charAt(0);
-        if(input>='A' && input<='Z'){
-            input=((char) (input+32));
-        }
+    protected Character getInputs(String player){
+        int status;
+        Character input;
+        do {
+            status=0;
+            String out = JOptionPane.showInputDialog(player);
+            input = out.charAt(0);
+            if (input >= 'A' && input <= 'Z') {
+                input = ((char) (input + 32));
+            }
+            else if(input >= 'a' && input <= 'z');
+            else {
+                status = 1;
+                JOptionPane.showMessageDialog(null,"This column is full or invalid.","Warning!",JOptionPane.ERROR_MESSAGE);
+            }
+        }while(status==1);
         return input;
     }
 
@@ -359,9 +380,42 @@ public abstract class ConnectFourGame implements UserInterface{
         return max;
     }
 
+    public void assignToGUI(JPanel tag,JButton items[],int row,int column,char player){
+        int size=board.length;
+        size=(size+1)*size;
+        int index=((row+1)*board.length)+column;
+        // Removing the panel...
+        tag.removeAll();
+        // JButton[] replacing...
+        items=new JButton[size];
+        tag.setLayout( new GridLayout( board.length+1, board.length ) );
+        int count=0;
+        for(int i=0;i<board.length+1;++i){
+            for(int j=0;j<board.length;++j){
+                if(i==0){
+                    char chr=(char)('A'+j);
+                    items[count]=new JButton(String.valueOf(chr));
+                    items[count].setBackground(Color.RED);
+                }
+                else if((i*board.length)+j==index){
+                    items[count]=new JButton(String.valueOf(player));
+                    items[count].setBackground(Color.BLUE);
+                }
+                else{
+                    items[count] = new JButton(String.valueOf(board[i-1][j]));
+                    items[count].setBackground(Color.BLUE);
+                }
+                tag.add( items[count]);
+                count++;
+            }
+        }
+        tag.revalidate();
+        tag.repaint();
+    }
+
     /**
      * It is useful for two game mode.
      */
-    public abstract void playGame();
+    public abstract void playGame(JPanel tag,JButton items[]);
 
 }
