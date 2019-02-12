@@ -1,4 +1,5 @@
 package ConnectFour;
+
 import javax.swing.*;
 import java.util.Random;
 
@@ -51,11 +52,11 @@ public class ConnectFour_AI extends ConnectFourGame {
                 column[0]=input-'a';
             }
             row=assignToBoard(column,gamer);
-            assignToGUI(tag,items,row,column[0],gamer);
             returnValue=gameStatus(row,column,gamer);
             if(returnValue==1 || returnValue==2)	condition=1;
-            if(condition==0);	//displayBoard();
+            if(condition==0);	assignToGUI(tag,items,row,column[0],gamer);
             if(condition==1 && returnValue==1){
+                assignToGUI(tag,items,row,column[0], (char) (gamer+('a'-'A')));
                 if(count%2==0)
                     JOptionPane.showMessageDialog(null,"The player won the game.");
                 else

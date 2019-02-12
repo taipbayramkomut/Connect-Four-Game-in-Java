@@ -36,7 +36,6 @@ public class GuiGame extends JFrame{
         component[0].setLayout( new GridLayout( size+1, size ) );
         component[1].setLayout( new GridLayout( 1, 1 ) );
         component[2].setLayout( new GridLayout( 1, 1 ) );
-
         for ( int count = 0; count < (size+1)*size; count++ ) {
             if(count>=size) {
                 buttons[count] = new JButton();
@@ -49,7 +48,7 @@ public class GuiGame extends JFrame{
             component[0].add( buttons[count]);
         }
         JButton part1,part2;
-        if(game1.getterGameType()=='C'){
+        if(game1.getterGameType()=='C' || game1.getterGameType()=='c'){
             part1=new JButton("Player");
             part2=new JButton("Computer");
         }
@@ -73,6 +72,5 @@ public class GuiGame extends JFrame{
         game1.playGame(component[0],buttons);
 
     }
-
 
 }
