@@ -67,7 +67,7 @@ public class GuiGame extends JFrame{
         add(component[2],BorderLayout.EAST);
         // Visible GUI
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(600, 600);
+        setSize(1300, 700);
         setVisible(true);
         game1.playGame(component[0],buttons);
 

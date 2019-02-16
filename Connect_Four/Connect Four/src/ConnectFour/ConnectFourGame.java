@@ -74,20 +74,32 @@ public abstract class ConnectFourGame extends JFrame implements UserInterface{
      * It asks the user to make a move.
      * @return
      */
-    protected Character getInputs(String player){
+    protected Character getInputs(String player, JPanel tag){
         int status;
-        Character input;
+        Character input=null;
         do {
-            status=0;
-            String out = JOptionPane.showInputDialog(player);
-            input = out.charAt(0);
-            if (input >= 'A' && input <= 'Z') {
-                input = ((char) (input + 32));
+            status = 0;
+            try {
+                String out = JOptionPane.showInputDialog(player);
+                input = out.charAt(0);
+                if (input >= 'A' && input <= 'Z') {
+                    input = ((char) (input + 32));
+                } else if (input >= 'a' && input <= 'z') ;
+                else {
+                    status = 1;
+                    JOptionPane.showMessageDialog(tag, "This column is full or invalid.", "Warning!", JOptionPane.ERROR_MESSAGE);
+                }
             }
-            else if(input >= 'a' && input <= 'z');
-            else {
-                status = 1;
-                JOptionPane.showMessageDialog(null,"This column is full or invalid.","Warning!",JOptionPane.ERROR_MESSAGE);
+            catch(StringIndexOutOfBoundsException e){
+                status=1;
+                JOptionPane.showMessageDialog(tag, "Empty column can not be selected.", "Warning!", JOptionPane.ERROR_MESSAGE);
+            }
+            catch(NullPointerException e){
+                int state = JOptionPane.showConfirmDialog(tag, "Do you want to close game?", "Game",  JOptionPane.YES_NO_OPTION);
+                if (state == JOptionPane.YES_OPTION)
+                    System.exit(0);
+                else
+                    status=1;
             }
         }while(status==1);
         return input;

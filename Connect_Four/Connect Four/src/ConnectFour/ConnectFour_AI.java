@@ -42,10 +42,10 @@ public class ConnectFour_AI extends ConnectFourGame {
             else{
                 do{
                     status=0;
-                    input=getInputs("Player's move");
+                    input=getInputs("Player's move",tag);
                     if(legalPosition(input)==0){
                         status=1;
-                        JOptionPane.showMessageDialog(null,"This column is full or invalid.","Warning!",JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(tag,"This column is full or invalid.","Warning!",JOptionPane.ERROR_MESSAGE);
                     }
                 }while(status==1);
                 gamer='X';			/* USER	*/
@@ -58,12 +58,12 @@ public class ConnectFour_AI extends ConnectFourGame {
             if(condition==1 && returnValue==1){
                 assignToGUI(tag,items,row,column[0], (char) (gamer+('a'-'A')));
                 if(count%2==0)
-                    JOptionPane.showMessageDialog(null,"The player won the game.");
+                    JOptionPane.showMessageDialog(tag,"The player won the game.");
                 else
-                    JOptionPane.showMessageDialog(null,"The computer won the game.");
+                    JOptionPane.showMessageDialog(tag,"The computer won the game.");
             }
             else if(condition==1 && returnValue==2){
-                JOptionPane.showMessageDialog(null,"The game ended in a draw.");
+                JOptionPane.showMessageDialog(tag,"The game ended in a draw.");
             }
             count++;
         }while(condition==0);

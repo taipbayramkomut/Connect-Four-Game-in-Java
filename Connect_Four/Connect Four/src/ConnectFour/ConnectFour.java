@@ -26,18 +26,35 @@ public class ConnectFour extends JFrame {
      */
     public void startingToGame(JFrame item)throws Exception{
         int status;
-        int sizeOfBoard;
+        String size=null;
+        int sizeOfBoard=0;
         JOptionPane.showMessageDialog(item,"Please you enter size of the board to will be created.\nHint: Size can be an even number from 4 to 20.");
         do {
-            status = 0;
-            String size=JOptionPane.showInputDialog(item,"Please enter size of board:");
-            sizeOfBoard=Integer.parseInt(size);
-            if(sizeOfBoard<4 || sizeOfBoard>20 || sizeOfBoard%2==1){
-                status=1;
-                JOptionPane.showMessageDialog(item,"The board size can be an even number from 4 to 20.","Invalid size number.",JOptionPane.ERROR_MESSAGE);
+            status=0;
+            try {
+                size = JOptionPane.showInputDialog(item, "Please enter size of board:");
+                sizeOfBoard = Integer.parseInt(size);
+                if (sizeOfBoard < 4 || sizeOfBoard > 20 || sizeOfBoard % 2 == 1) {
+                    JOptionPane.showMessageDialog(item, "The board size can be an even number from 4 to 20.", "Invalid size number.", JOptionPane.ERROR_MESSAGE);
+                }
+                else status=1;
             }
-        }while(status==1);
-        size=sizeOfBoard;
+            catch(NumberFormatException e){
+                if(size==null) {
+                    int state = JOptionPane.showConfirmDialog(item, "Do you want to close game?", "Game", JOptionPane.YES_NO_OPTION);
+                    if (state == JOptionPane.YES_OPTION)
+                        System.exit(0);
+                }
+                else{
+                    JOptionPane.showMessageDialog(item, "The board size can be an even number from 4 to 20.", "Invalid size", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            catch(Exception e){
+                System.out.println(e.toString());
+                JOptionPane.showMessageDialog(item, "The board size can be an even number from 4 to 20.", "Size isn't a number.", JOptionPane.ERROR_MESSAGE);
+            }
+        }while(status==0);
+        this.size=sizeOfBoard;
     }
 
     /**
@@ -46,7 +63,6 @@ public class ConnectFour extends JFrame {
     public void typeOfGame(JFrame item){
         char type;
         int status;
-
         do {
             status = 0;
             String typeOption=JOptionPane.showInputDialog(item,"Which game type will you play?\nPress C to play against a computer.\nPress P to play against a player2.");
@@ -64,7 +80,7 @@ public class ConnectFour extends JFrame {
         item.setLayout( new FlowLayout() );
         item.add(new JLabel(new ImageIcon("Connect_Four.gif")));
         item.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        item.setSize(600, 600);
+        item.setSize(400, 500);
         item.setVisible(true);
         startingToGame(item);
         typeOfGame(item);
